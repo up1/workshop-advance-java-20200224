@@ -3,6 +3,7 @@ package com.example.day2.user;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -12,12 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class PostGatewayTest {
 
     @Autowired
-    private PostGateway postGateway;
+    private RestTemplate restTemplate;
 
     @Test
     void getPostById() {
-        Optional<PostResponse> postResponse = postGateway.getPostById(1);
-        assertEquals(1, postResponse.get().getId());
-        assertEquals(1, postResponse.get().getUserId());
+        PostResponse postResponse = restTemplate.getForObject("https://jsonplaceholder.typicode.com/posts/1", PostResponse.class);
+        assertEquals(1, postResponse.getId());
+        assertEquals(1, postResponse.getUserId());
     }
 }
